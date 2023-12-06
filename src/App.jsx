@@ -3,13 +3,14 @@ import { QuizContext } from './context/QuizContext'
 import Welcome from './components/Welcome'
 import Question from './components/Question'
 import GameOver from './components/GameOver'
+import { QuizActionTypes } from './constants/QuizActionTypes'
 import './App.css'
 
 function App() {
   const [quizState, dispatch] = useContext(QuizContext)
 
   useEffect(() => {
-    dispatch({ type: "REODER_QUESTIONS" })
+    dispatch({ type: QuizActionTypes.REODER_QUESTIONS })
   }, [])
 
   return (

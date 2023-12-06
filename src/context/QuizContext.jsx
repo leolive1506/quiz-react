@@ -1,11 +1,11 @@
 import { createContext, useReducer } from "react";
 import questions from '../data/questions'
+import { Stages } from "../constants/Stages";
+import { QuizActionTypes } from "../constants/QuizActionTypes";
 export const QuizContext = createContext()
 
-const STAGES = ["Start", "Playing", "End"]
-
 const initialState = {
-  gameStage: STAGES[0],
+  gameStage: Stages.START,
   questions,
   currentQuestion: 0,
   score: 0,
@@ -14,12 +14,12 @@ const initialState = {
 
 const quizReducer = (state, action) => {
   switch (action.type) {
-    case "CHANGE_STATE":
+    case QuizActionTypes.CHANGE_STATE:
       return {
         ...state,
-        gameStage: STAGES[1]
+        gameStage: Stages.PLAYING
       }
-    case "REODER_QUESTIONS":
+    case QuizActionTypes.REODER_QUESTIONS:
       const reorderedQuestions = questions.sort(() => {
         return Math.random() - 0.5
       })
@@ -27,19 +27,19 @@ const quizReducer = (state, action) => {
         ...state,
         questions: reorderedQuestions
       }
-    case "CHANGE_QUESTION":
+    case QuizActionTypes.CHANGE_QUESTION:
       const nextQuestion = state.currentQuestion + 1;
       let endGame = !questions[nextQuestion];
 
       return {
         ...state,
-        gameStage: endGame ? STAGES[2] : STAGES[1],
+        gameStage: endGame ? Stages.END : Stages.PLAYING,
         currentQuestion: nextQuestion,
         answerSelected: false,
       }
-    case "NEW_GAME":
+    case QuizActionTypes.NEW_GAME:
       return initialState
-    case "CHECK_ANSWER":
+    case QuizActionTypes.CHECK_ANSWER:
       if (state.answerSelected) {
         return state;
       }
@@ -47,7 +47,7 @@ const quizReducer = (state, action) => {
       const answer = action.payload.answer
       const option = action.payload.option
       let scoreAnswer = Number(answer === option);
-      
+
       return {
         ...state,
         score: state.score + scoreAnswer,

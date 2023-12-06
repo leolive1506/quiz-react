@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { QuizContext } from '../../context/QuizContext'
 import Option from '../Option'
+import { QuizActionTypes } from '../../constants/QuizActionTypes'
 import './styles.css'
 
 const Question = () => {
@@ -12,7 +13,7 @@ const Question = () => {
   const onSelectOption = (option) => {
     // console.log(option, currentQuestion.answer)
     dispatch({
-      type: "CHECK_ANSWER",
+      type: QuizActionTypes.CHECK_ANSWER,
       payload: { answer: currentQuestion.answer, option }
     })
   }
@@ -32,7 +33,7 @@ const Question = () => {
           ))
         }
       </div>
-      {quizState.answerSelected && <button onClick={() => dispatch({ type: "CHANGE_QUESTION" })}>Continuar</button>}
+      {quizState.answerSelected && <button onClick={() => dispatch({ type: QuizActionTypes.CHANGE_QUESTION })}>Continuar</button>}
     </div>
   )
 }

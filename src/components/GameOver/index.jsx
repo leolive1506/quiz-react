@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { QuizContext } from '../../context/QuizContext'
 import WellDone from "../../img/welldone.svg"
+import { QuizActionTypes } from '../../constants/QuizActionTypes'
 import './styles.css'
 
 const GameOver = () => {
@@ -14,7 +15,7 @@ const GameOver = () => {
       <p>Pontuação: {score}</p>
       <p>Voce acertou {score} de {length} perguntas</p>
       <img src={WellDone} alt="Fim do jogo" />
-      <button onClick={() => dispatch({ type: "NEW_GAME" })}>Reiniar</button>
+      <button onClick={() => dispatch({ type: QuizActionTypes.NEW_GAME })}>Reiniar</button>
     </div>
   )
 }
