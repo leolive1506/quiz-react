@@ -8,7 +8,8 @@ const initialState = {
   gameStage: STAGES[0],
   questions,
   currentQuestion: 0,
-  score: 0
+  score: 0,
+  answerSelected: false,
 }
 
 const quizReducer = (state, action) => {
@@ -34,9 +35,24 @@ const quizReducer = (state, action) => {
         ...state,
         gameStage: endGame ? STAGES[2] : STAGES[1],
         currentQuestion: nextQuestion,
+        answerSelected: false,
       }
     case "NEW_GAME":
       return initialState
+    case "CHECK_ANSWER":
+      if (state.answerSelected) {
+        return state;
+      }
+
+      const answer = action.payload.answer
+      const option = action.payload.option
+      let scoreAnswer = Number(answer === option);
+      
+      return {
+        ...state,
+        score: state.score + scoreAnswer,
+        answerSelected: option
+      }
     default: state
   }
 }
